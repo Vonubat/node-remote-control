@@ -4,19 +4,19 @@ import { Controller } from '../types';
 
 export const controller: Controller = {
   [Commands.mouseUp]: async ([offset]: number[]): Promise<void> => {
-    mouse.move(up(offset));
+    await mouse.move(up(offset));
   },
 
   [Commands.mouseDown]: async ([offset]: number[]): Promise<void> => {
-    mouse.move(down(offset));
+    await mouse.move(down(offset));
   },
 
   [Commands.mouseLeft]: async ([offset]: number[]): Promise<void> => {
-    mouse.move(left(offset));
+    await mouse.move(left(offset));
   },
 
   [Commands.mouseRight]: async ([offset]: number[]): Promise<void> => {
-    mouse.move(right(offset));
+    await mouse.move(right(offset));
   },
 
   [Commands.mousePosition]: async (): Promise<string> => {
