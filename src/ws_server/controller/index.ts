@@ -1,28 +1,28 @@
-import { mouse, up, down, left, right, MouseClass } from '@nut-tree/nut-js';
+import { mouse, up, down, left, right } from '@nut-tree/nut-js';
 import { Commands } from '../../constants';
-
-type CommandHandler = (args: number[]) => Promise<void | string | MouseClass>;
-type Controller = Record<Commands, CommandHandler>;
+import { Controller } from '../types';
 
 export const controller: Controller = {
-  [Commands.mouseUp]: async ([offset]: number[]) => {
-    return mouse.move(up(offset));
+  [Commands.mouseUp]: async ([offset]: number[]): Promise<void> => {
+    mouse.move(up(offset));
   },
 
-  [Commands.mouseDown]: async ([offset]: number[]) => {
-    return mouse.move(down(offset));
+  [Commands.mouseDown]: async ([offset]: number[]): Promise<void> => {
+    mouse.move(down(offset));
   },
 
-  [Commands.mouseLeft]: async ([offset]: number[]) => {
-    return mouse.move(left(offset));
+  [Commands.mouseLeft]: async ([offset]: number[]): Promise<void> => {
+    mouse.move(left(offset));
   },
 
-  [Commands.mouseRight]: async ([offset]: number[]) => {
-    return mouse.move(right(offset));
+  [Commands.mouseRight]: async ([offset]: number[]): Promise<void> => {
+    mouse.move(right(offset));
   },
 
-  [Commands.mousePosition]: async (/* TODO */) => {
-    // TODO
+  [Commands.mousePosition]: async (/* TODO */): Promise<string> => {
+    const { x, y } = await mouse.getPosition();
+    const response: string = `${x},${y}`;
+    return response;
   },
 
   [Commands.drawCircle]: async (/* TODO */) => {
