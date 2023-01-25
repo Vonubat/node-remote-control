@@ -2,7 +2,8 @@ import 'dotenv/config';
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
 import { WebSocketServer, createWebSocketStream, WebSocket } from 'ws';
-import { DEFAULT_WS_PORT } from '../constants';
+import { Commands, DEFAULT_WS_PORT } from '../constants';
+import { controller } from './controller';
 
 const WS_PORT: number = Number(process.env.WS_PORT) || DEFAULT_WS_PORT;
 
@@ -16,7 +17,20 @@ wss.on('connection', async (ws: WebSocket, req) => {
   const duplex = createWebSocketStream(ws, { encoding: 'utf8', decodeStrings: false });
 
   const transformStream = new Transform({
-    transform(data, _, callback) {},
+    async transform(data, _, callback) {
+      console.log(data);
+      const [commandName, ...commandValue] = data.split(' ');
+
+      const result = await controller[commandName as Commands](commandValue.map(Number));
+
+      if (result) {
+        callback(null, `${commandName} ${result}`);
+        return;
+      } else {
+        callback(null, data);
+        return;
+      }
+    },
     decodeStrings: false,
     encoding: 'utf8',
   });
