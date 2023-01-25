@@ -65,10 +65,9 @@ export const controller: Controller = {
     const region = getScreenshotRegion(x, y);
     await screen.highlight(region);
 
-    const imageBGR = await screen.grabRegion(region);
-    const imageRGB = await imageBGR.toRGB();
-    const image = new Jimp(imageRGB);
-    const buffer = await image.getBufferAsync(Jimp.MIME_PNG);
+    const grabbedImage = await (await screen.grabRegion(region)).toRGB();
+    const jimpImage = new Jimp(grabbedImage);
+    const buffer = await jimpImage.getBufferAsync(Jimp.MIME_PNG);
 
     return buffer.toString('base64');
   },

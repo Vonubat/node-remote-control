@@ -22,11 +22,11 @@ wss.on('connection', async (ws: WebSocket, req: IncomingMessage) => {
   const transformStream = new Transform({
     async transform(data, _, callback) {
       console.log(data);
-      const [commandName, ...commandValue] = data.split(' ');
+      const [command, ...args] = data.split(' ');
 
-      const result: string | void = await controller[commandName as Commands](commandValue.map(Number));
+      const result: string | void = await controller[command as Commands](args.map(Number));
 
-      result ? callback(null, `${commandName} ${result}`) : callback(null, data);
+      result ? callback(null, `${command} ${result}`) : callback(null, data);
     },
     encoding: 'utf8',
     decodeStrings: false,

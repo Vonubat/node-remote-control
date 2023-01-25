@@ -1,2 +1,2 @@
-import './http_server/index';
-import './ws_server/index';
+import './http_server';
+import './ws_server';
