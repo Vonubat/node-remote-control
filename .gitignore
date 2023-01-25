@@ -17,3 +17,7 @@ npm-debug.log
 
 # Output dir
 /build
+
+# dotenv environment variables file
+.env
+.env.test
