@@ -21,7 +21,7 @@ wss.on('connection', async (ws: WebSocket, req) => {
       console.log(data);
       const [commandName, ...commandValue] = data.split(' ');
 
-      const result = await controller[commandName as Commands](commandValue.map(Number));
+      const result: string | void = await controller[commandName as Commands](commandValue.map(Number));
 
       if (result) {
         callback(null, `${commandName} ${result}`);
@@ -31,8 +31,8 @@ wss.on('connection', async (ws: WebSocket, req) => {
         return;
       }
     },
-    decodeStrings: false,
     encoding: 'utf8',
+    decodeStrings: false,
   });
 
   await pipeline(duplex, transformStream, duplex);
