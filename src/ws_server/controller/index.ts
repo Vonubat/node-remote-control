@@ -23,8 +23,7 @@ export const controller: Controller = {
 
   [Commands.mousePosition]: async (): Promise<string> => {
     const { x, y } = await mouse.getPosition();
-    const response = `${x},${y}`;
-    return response;
+    return `${x},${y}`;
   },
 
   [Commands.drawCircle]: async ([radius]: number[]): Promise<void> => {
@@ -64,11 +63,10 @@ export const controller: Controller = {
   [Commands.prntScrn]: async (): Promise<string> => {
     const { x, y } = await mouse.getPosition();
     const region = getScreenshotRegion(x, y);
-
     await screen.highlight(region);
+
     const imageBGR = await screen.grabRegion(region);
     const imageRGB = await imageBGR.toRGB();
-
     const image = new Jimp(imageRGB);
     const buffer = await image.getBufferAsync(Jimp.MIME_PNG);
 
