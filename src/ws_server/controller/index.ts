@@ -41,8 +41,13 @@ export const controller: Controller = {
     await mouse.releaseButton(Button.LEFT);
   },
 
-  [Commands.drawSquare]: async (/* TODO */) => {
-    // TODO
+  [Commands.drawSquare]: async ([width]: number[]): Promise<void> => {
+    await mouse.pressButton(Button.LEFT);
+    await mouse.move(right(width));
+    await mouse.move(down(width));
+    await mouse.move(left(width));
+    await mouse.move(up(width));
+    await mouse.releaseButton(Button.LEFT);
   },
 
   [Commands.drawRectangle]: async (/* TODO */) => {
