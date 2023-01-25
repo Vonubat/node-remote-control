@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "remote control backend using nutjs.dev library and websocket",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "cross-env tsc && node build/index.js",
     "start:dev": "cross-env nodemon"
