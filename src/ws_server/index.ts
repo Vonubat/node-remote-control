@@ -25,10 +25,8 @@ wss.on('connection', async (ws: WebSocket, req) => {
 
       if (result) {
         callback(null, `${commandName} ${result}`);
-        return;
       } else {
         callback(null, data);
-        return;
       }
     },
     encoding: 'utf8',

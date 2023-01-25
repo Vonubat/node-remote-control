@@ -1,6 +1,8 @@
-import { mouse, up, down, left, right, straightTo, Button } from '@nut-tree/nut-js';
+import { mouse, up, down, left, right, straightTo, Button, screen } from '@nut-tree/nut-js';
+import Jimp from 'jimp';
 import { Commands } from '../../constants';
 import { Controller } from '../types';
+import { getScreenshotRegion } from '../utils';
 
 export const controller: Controller = {
   [Commands.mouseUp]: async ([offset]: number[]): Promise<void> => {
@@ -21,7 +23,7 @@ export const controller: Controller = {
 
   [Commands.mousePosition]: async (): Promise<string> => {
     const { x, y } = await mouse.getPosition();
-    const response: string = `${x},${y}`;
+    const response = `${x},${y}`;
     return response;
   },
 
@@ -59,7 +61,17 @@ export const controller: Controller = {
     await mouse.releaseButton(Button.LEFT);
   },
 
-  [Commands.prntScrn]: async (/* TODO */) => {
-    // TODO
+  [Commands.prntScrn]: async (): Promise<string> => {
+    const { x, y } = await mouse.getPosition();
+    const region = getScreenshotRegion(x, y);
+
+    await screen.highlight(region);
+    const imageBGR = await screen.grabRegion(region);
+    const imageRGB = await imageBGR.toRGB();
+
+    const image = new Jimp(imageRGB);
+    const buffer = await image.getBufferAsync(Jimp.MIME_PNG);
+
+    return buffer.toString('base64');
   },
 };
