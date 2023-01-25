@@ -1,0 +1,1 @@
+export { getScreenshotRegion } from './getScreenshotRegion';
